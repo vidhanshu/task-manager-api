@@ -84,7 +84,6 @@ router.post("/users/login", async (req, res) => {
     if (!user) {
         return res.status(401).send("Wrong credentials!");
     }
-    console.log(user.getPublicProfile())
     /* generating the token for the current user */
     const token = await user.generateAuthToken();
     /* adding the toke to the tokens array in the database */
@@ -92,7 +91,7 @@ router.post("/users/login", async (req, res) => {
     /* saving the user to the database */
     const newUser = await user.save();
     /* sending response back without private data like - password and tokens array */
-    res.send({ user: newUser.getPublicProfile(), token })
+    res.send({ user: newUser, token })
 })
 
 /* user logout */
@@ -123,7 +122,7 @@ router.post("/users/logoutAll", auth, async (req, res) => {
 router.get("/users/me", auth, async (req, res) => {
     try {
         /* sending response back without private data like - password and tokens array */
-        res.send({ user: req.user.getPublicProfile() });
+        res.send({ user: req.user });
     } catch (error) {
         res.status(404).send(error);
     }
@@ -150,7 +149,7 @@ router.patch("/users/me", auth, async (req, res) => {
         /* saving so that middleware will run */
         await req.user.save();
 
-        res.send({ user: req.user.getPublicProfile() });
+        res.send({ user: req.user });
     } catch (error) {
         res.status(400).send(error);
     }
@@ -163,7 +162,7 @@ router.delete("/users/me", auth, async (req, res) => {
         /* removing the user from the database */
         await req.user.remove();
         /* sending the current user back as a response */
-        res.send({ user: req.user.getPublicProfile() });
+        res.send({ user: req.user });
     } catch (error) {
         res.status(400).send();
     }

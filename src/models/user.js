@@ -60,7 +60,7 @@ userSchema.virtual('tasks', {
 
 
 /* to not to send the response to the user back with password and tokens array- yes not even to the authenticated user*/
-userSchema.methods.getPublicProfile = function () {
+userSchema.methods.toJSON = function () {
     const user = this;
     const obj = user.toObject();
     delete obj.password;
