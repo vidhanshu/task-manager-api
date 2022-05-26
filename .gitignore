@@ -1,0 +1,5 @@
+.env
+.env.js
+.env.json
+.env-cmdrc
+node_modules/
