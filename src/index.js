@@ -24,7 +24,7 @@ const app = express();
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 /* to be able to access the req object inside route callback */
 app.use(express.json());
